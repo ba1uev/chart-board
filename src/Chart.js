@@ -60,6 +60,19 @@ export default {
       })
       .attr('fill', barBorderColor);
 
+    // bar.append('line')
+    //   .attr('y1', d => {
+    //     return height-y(d.y)
+    //   })
+    //   .attr('y2', height)
+    //   .attr('x1', (d,i) => {
+    //     return i * barWidth
+    //   })
+    //   .attr('x2', (d,i) => {
+    //     return i * barWidth
+    //   })
+    //   .attr('fill', barBorderColor);
+
     var meanLine = svg.append('g');
 
     meanLine.append('line')
