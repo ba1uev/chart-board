@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import Chart from './Chart';
 
 export default class App extends Component {
-  // state = {
-  // }
+  state = {
+    data: this.prepareData(this.props.data)
+  }
 
   componentDidMount(){
     console.error('MOUNT');
     let index = this.props.index;
-    let data = this.prepareData(this.props.data, index);
+    // let data = this.prepareData(this.props.data, index);
     let mainChart = this.refs.mainChart;
     // let subChart_1 = this.refs.subChart_1;
     // let params = {
@@ -16,19 +17,21 @@ export default class App extends Component {
     //   height: mainChart.clientHeight,
     //   type: 'main'
     // };
-    Chart.create(mainChart, data, 'main');
+    Chart.create(mainChart, this.state.data, 'main');
   }
 
   componentDidUpdate(){
     console.error('UPDATE');
-
-    Chart.update();
+    let mainChart = this.refs.mainChart;
+    let data = this.state.data;
+    // console.log(this.state.data[3].y);
+    Chart.update(mainChart, data);
   }
 
-  prepareData(data, index) {
+  prepareData(data) {
     let result = [];
     data.forEach((item,i) => {
-      if (i < 20) {
+      if (i < 18) {
         result.push({
           x: new Date(item.ts),
           y: item.shows
@@ -36,6 +39,21 @@ export default class App extends Component {
       }
     })
     return result
+  }
+
+  updateData(_this){
+    // console.log(_this.state.data[3].y);
+    let result = [];
+    let data = _this.state.data;
+    data.forEach(item => {
+      result.push({
+        x: item.x,
+        y: Math.round(+item.y + Math.random()*2000)
+      })
+    })
+    _this.setState({
+      data: result
+    })
   }
 
   render(){
@@ -55,6 +73,7 @@ export default class App extends Component {
       <div>
         <div style={mainChartStyle} ref="mainChart">
         </div>
+        <button onClick={() => {this.updateData(this)}}>Update</button>
         <br/>
         <div>
           <div style={subChartStyle} ref="subChart_1">
