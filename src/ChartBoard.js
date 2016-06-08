@@ -52,7 +52,7 @@ export default class App extends Component {
     // console.log(_this.state.data[3].y);
     var result = [];
     var data = _this.state.mainData;
-    data.forEach(item => {
+    data.forEach((item,i) => {
       result.push({
         x: item.x,
         y: Math.round(+item.y + Math.random()*2000)
@@ -106,7 +106,7 @@ export default class App extends Component {
     }
     let subChartStyle = {
       width: '23%',
-      margin: '20px 1% 0 0',
+      margin: '20px 4% 0 0',
       // borderTop: '1px solid blue',
       display: 'inline-block',
       height: '100px',
