@@ -1,46 +1,50 @@
 import React, { Component } from 'react';
 import Chart from './Chart';
 
+var indexList = ['shows', 'impressions', 'clicks', 'ctr'];
+var uniqKey = Math.round(Math.random()*10000);
+
 export default class App extends Component {
-  state = {
-    mainData: this.prepareData(this.props.data, this.props.index),
-    subData_1: this.prepareData(this.props.data, 'clicks'),
-    subData_2: this.prepareData(this.props.data, 'impressions'),
-    subData_3: this.prepareData(this.props.data, 'shows'),
-  }
 
   componentDidMount(){
     console.error('MOUNT');
-    let mainChart = this.refs.mainChart;
-    let subChart_1 = this.refs.subChart_1;
-    let subChart_2 = this.refs.subChart_2;
-    let subChart_3 = this.refs.subChart_3;
-    Chart.create(mainChart, this.state.mainData, 'main');
-    Chart.create(subChart_1, this.state.subData_1, 'sub');
-    Chart.create(subChart_2, this.state.subData_2, 'sub');
-    Chart.create(subChart_3, this.state.subData_3, 'sub');
+    let refs = this.refs;
+    let mainIndex = this.props.index;
+    let data = this.props.data;
+    Chart.create(refs['mainChart'], this.separateData(data, mainIndex), true);
+    indexList.forEach(index => {
+      Chart.create(refs[index], this.separateData(data, index), false);
+    })
   }
 
   componentDidUpdate(){
     console.error('UPDATE');
-    let mainChart = this.refs.mainChart;
-    let subChart_1 = this.refs.subChart_1;
-    let subChart_2 = this.refs.subChart_2;
-    let subChart_3 = this.refs.subChart_3;
-    // let maindata = this.state.mainData;
-    // console.log(this.state.data[3].y);
-    Chart.update(mainChart, this.state.mainData);
-    Chart.update(subChart_1, this.state.subData_1);
-    Chart.update(subChart_2, this.state.subData_2);
-    Chart.update(subChart_3, this.state.subData_3);
+    let refs = this.refs;
+    let mainIndex = this.props.index;
+    let data = this.props.data;
+    Chart.update(refs['mainChart'], this.separateData(data, mainIndex));
+    indexList.forEach(index => {
+      Chart.update(refs[index], this.separateData(data, index));
+    })
+
+    // let mainChart = this.refs.mainChart;
+    // let subChart_1 = this.refs.subChart_1;
+    // let subChart_2 = this.refs.subChart_2;
+    // let subChart_3 = this.refs.subChart_3;
+    // // let maindata = this.state.mainData;
+    // // console.log(this.state.data[3].y);
+    // Chart.update(mainChart, this.state.mainData);
+    // Chart.update(subChart_1, this.state.subData_1);
+    // Chart.update(subChart_2, this.state.subData_2);
+    // Chart.update(subChart_3, this.state.subData_3);
   }
 
-  prepareData(data, index) {
+  separateData(data, index) {
     let result = [];
     data.forEach((item,i) => {
       // if (i < 18) {
         result.push({
-          x: new Date(item.ts),
+          x: item.ts,
           y: item[index]
         })
       // }
@@ -101,32 +105,41 @@ export default class App extends Component {
 
   render(){
     let mainChartStyle = {
-      // border: '1px solid blue',
       height: '300px'
     }
+
     let subChartStyle = {
-      width: '23%',
-      margin: '20px 4% 0 0',
-      // borderTop: '1px solid blue',
+      width: '21%',
+      margin: '20px 2% 0 0',
       display: 'inline-block',
-      height: '100px',
+      border: '1px solid lightgray',
+      padding: '5px',
       verticalAlign: 'top'
     }
+    let subCharts = [];
+    indexList.forEach(index => {
+      subCharts.push(
+        <div
+          style={subChartStyle}
+          key={`${index}_${uniqKey}`}
+          onClick={() => {this.props.subChartClickHandler.apply(null,[index])}}
+        >
+          <b style={{color: index===this.props.index ? 'red' : 'black'}}>{index}</b>
+          <div
+            style={{height: '100px'}}
+            ref={index}>
+          </div>
+        </div>
+      )
+    })
     return (
       <div>
         <div style={mainChartStyle} ref="mainChart">
         </div>
-        <button onClick={() => {this.updateData(this)}}>Update</button>
+        {/*<button onClick={() => {this.updateData(this)}}>Update</button>*/}
         <br/>
         <div>
-          <div style={subChartStyle} ref="subChart_1">
-          </div>
-          <div style={subChartStyle} ref="subChart_2">
-          </div>
-          <div style={subChartStyle} ref="subChart_3">
-          </div>
-          <div style={subChartStyle} ref="subChart_4">
-          </div>
+          {subCharts}
         </div>
       </div>
     )

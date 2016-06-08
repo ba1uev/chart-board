@@ -1,7 +1,7 @@
 import d3 from 'd3';
 
 export default {
-  create(el, data, type){
+  create(el, data, isMain){
     var width = el.clientWidth;
     var height = el.clientHeight;
     var count = data.length;
@@ -75,7 +75,7 @@ export default {
     //   })
     //   .attr('fill', barBorderColor);
 
-    if (type === 'main') {
+    if (isMain) {
       var meanLine = svg.append('g');
 
       meanLine.append('line')
