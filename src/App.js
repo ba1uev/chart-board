@@ -14,7 +14,7 @@ export default class App extends Component {
       <div style={rootStyle}>
         <h1>chart here</h1>
         <ChartBoard
-          index='ctr'
+          index='shows'
           data={stat_data}
         />
       </div>

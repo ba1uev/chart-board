@@ -75,37 +75,39 @@ export default {
     //   })
     //   .attr('fill', barBorderColor);
 
-    var meanLine = svg.append('g');
+    if (type === 'main') {
+      var meanLine = svg.append('g');
 
-    meanLine.append('line')
-      .attr('class', 'mean-line')
-      .attr('x1', 0)
-      .attr('x2', width)
-      .attr('y1', height - y(meanY))
-      .attr('y2', height - y(meanY))
-      .attr('stroke', meanColor)
-      .attr('stroke-width', 1);
+      meanLine.append('line')
+        .attr('class', 'mean-line')
+        .attr('x1', 0)
+        .attr('x2', width)
+        .attr('y1', height - y(meanY))
+        .attr('y2', height - y(meanY))
+        .attr('stroke', meanColor)
+        .attr('stroke-width', 1);
 
-    var meanLineCounter = meanLine.append('g');
+      var meanLineCounter = meanLine.append('g');
 
-    meanLineCounter.append('rect')
-      .attr('class', 'mean-counter')
-      .attr('width', 60)
-      .attr('height', 18)
-      // .attr('rx', 2)
-      .attr('x', (width-60)/2)
-      .attr('y', height - y(meanY) - 9)
-      .attr('fill', meanColor);
+      meanLineCounter.append('rect')
+        .attr('class', 'mean-counter')
+        .attr('width', 60)
+        .attr('height', 18)
+        // .attr('rx', 2)
+        .attr('x', (width-60)/2)
+        .attr('y', height - y(meanY) - 9)
+        .attr('fill', meanColor);
 
-    meanLineCounter.append('text')
-      .attr('class', 'mean-text')
-      .attr('x', width/2)
-      .attr('y', height - y(meanY) + 3)
-      .attr('text-anchor', 'middle')
-      .text(Math.round(meanY))
-      .attr('font-family', 'helvetica')
-      .attr('font-size', 10)
-      .attr('fill', '#fff')
+      meanLineCounter.append('text')
+        .attr('class', 'mean-text')
+        .attr('x', width/2)
+        .attr('y', height - y(meanY) + 3)
+        .attr('text-anchor', 'middle')
+        .text(Math.round(meanY))
+        .attr('font-family', 'helvetica')
+        .attr('font-size', 10)
+        .attr('fill', '#fff');
+    }
   },
 
 
