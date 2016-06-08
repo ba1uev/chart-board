@@ -1,24 +1,37 @@
 import React, { Component } from 'react';
 import Chart from './Chart';
+import {mean, sum} from 'lodash';
 
 var indexList = ['shows', 'impressions', 'clicks', 'ctr'];
 var uniqKey = Math.round(Math.random()*10000);
 
 export default class App extends Component {
+  state = {
+    shows: null,
+    impressions: null,
+    clicks: null,
+    ctr: null
+  }
 
   componentDidMount(){
-    console.error('MOUNT');
     let refs = this.refs;
     let mainIndex = this.props.index;
     let data = this.props.data;
+    let values = {};
     Chart.create(refs['mainChart'], this.separateData(data, mainIndex), true);
     indexList.forEach(index => {
-      Chart.create(refs[index], this.separateData(data, index), false);
+      let dataSet = this.separateData(data, index);
+      let totalValue = 0;
+      Chart.create(refs[index], dataSet, false);
+      dataSet.forEach(datum => {
+        totalValue += datum.y;
+      })
+      values[index] = index === 'ctr' ? Number((totalValue/dataSet.length).toFixed(2)) : totalValue;
     })
+    this.setState({...values});
   }
 
   componentDidUpdate(){
-    console.error('UPDATE');
     let refs = this.refs;
     let mainIndex = this.props.index;
     let data = this.props.data;
@@ -26,17 +39,6 @@ export default class App extends Component {
     indexList.forEach(index => {
       Chart.update(refs[index], this.separateData(data, index));
     })
-
-    // let mainChart = this.refs.mainChart;
-    // let subChart_1 = this.refs.subChart_1;
-    // let subChart_2 = this.refs.subChart_2;
-    // let subChart_3 = this.refs.subChart_3;
-    // // let maindata = this.state.mainData;
-    // // console.log(this.state.data[3].y);
-    // Chart.update(mainChart, this.state.mainData);
-    // Chart.update(subChart_1, this.state.subData_1);
-    // Chart.update(subChart_2, this.state.subData_2);
-    // Chart.update(subChart_3, this.state.subData_3);
   }
 
   separateData(data, index) {
@@ -45,63 +47,13 @@ export default class App extends Component {
       // if (i < 18) {
         result.push({
           x: item.ts,
-          y: item[index]
+          y: Number(item[index])
         })
       // }
     })
     return result
   }
 
-  updateData(_this){
-    // console.log(_this.state.data[3].y);
-    var result = [];
-    var data = _this.state.mainData;
-    data.forEach((item,i) => {
-      result.push({
-        x: item.x,
-        y: Math.round(+item.y + Math.random()*2000)
-      })
-    })
-    _this.setState({
-      mainData: result
-    })
-
-    result = [];
-    data = _this.state.subData_1;
-    data.forEach(item => {
-      result.push({
-        x: item.x,
-        y: Math.round(+item.y + Math.random()*2000)
-      })
-    })
-    _this.setState({
-      subData_1: result
-    })
-
-    result = [];
-    data = _this.state.subData_2;
-    data.forEach(item => {
-      result.push({
-        x: item.x,
-        y: Math.round(+item.y + Math.random()*2000)
-      })
-    })
-    _this.setState({
-      subData_2: result
-    })
-
-    result = [];
-    data = _this.state.subData_3;
-    data.forEach(item => {
-      result.push({
-        x: item.x,
-        y: Math.round(+item.y + Math.random()*2000)
-      })
-    })
-    _this.setState({
-      subData_3: result
-    })
-  }
 
   render(){
     let mainChartStyle = {
@@ -129,6 +81,7 @@ export default class App extends Component {
             style={{height: '100px'}}
             ref={index}>
           </div>
+          <span>{this.state[index]}</span>
         </div>
       )
     })

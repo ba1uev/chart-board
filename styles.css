@@ -1,0 +1,17 @@
+.axis path {
+  display: none;
+}
+
+.axis line {
+  shape-rendering: crispEdges;
+  stroke: #000;
+}
+
+.axis .minor line {
+  stroke: #ebebeb;
+  /*stroke-dasharray: 2,2;*/
+}
+
+.hidden {
+  display: none;
+}

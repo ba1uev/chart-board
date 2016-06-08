@@ -29,6 +29,36 @@ export default {
       })])
       .range([0, height]);
 
+    // if (isMain) {
+    //   var xAxis = d3.svg.axis()
+    //     .scale(x)
+    //     .ticks(d3.time.days)
+    //     .orient('bottom');
+    //
+    //   var yAxis = d3.svg.axis()
+    //     .scale(y)
+    //     .tickSize(width)
+    //     .tickFormat(d3.format(''))
+    //     .orient('right');
+    //
+    //   var gy = svg.append('g')
+    //     .attr('class', 'y axis')
+    //     .call(yAxis);
+    //
+    //   gy.selectAll('g').filter(d => { return d})
+    //     .classed('minor', true);
+    //
+    //   gy.selectAll('g').filter(d => { return !d})
+    //     .classed('hidden', true);
+    //
+    //   gy.selectAll('text')
+    //     .attr('font-family', 'helvetica')
+    //     .attr('font-size', 10)
+    //     .attr('fill', '#a6a6a6')
+    //     .attr('x', 4)
+    //     .attr('dy', -4  );
+    // }
+
     var bar = svg.selectAll('g')
       .data(data)
       .enter()
@@ -63,18 +93,6 @@ export default {
       })
       .attr('fill', barBorderColor);
 
-    // bar.append('line')
-    //   .attr('y1', d => {
-    //     return height-y(d.y)
-    //   })
-    //   .attr('y2', height)
-    //   .attr('x1', (d,i) => {
-    //     return i * barWidth
-    //   })
-    //   .attr('x2', (d,i) => {
-    //     return i * barWidth
-    //   })
-    //   .attr('fill', barBorderColor);
 
     if (isMain) {
       var meanLine = svg.append('g');
@@ -131,7 +149,16 @@ export default {
       })])
       .range([0, height]);
 
-    console.warn('update!');
+    // var yAxis = d3.svg.axis()
+    //   .scale(y)
+    //   .tickSize(width)
+    //   .tickFormat(d3.format(''))
+    //   .orient('right');
+    //
+    // d3.select(".y.axis")
+    //   .transition()
+    //   .duration(duration)
+    //   .call(yAxis);
 
     d3.select(el).selectAll('rect.bar-body')
       .data(data)
