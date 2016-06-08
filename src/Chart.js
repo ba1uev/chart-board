@@ -40,6 +40,7 @@ export default {
     if (isMain) {
       var xAxis = d3.svg.axis()
         .scale(x)
+        .tickSize(0)
         .ticks(d3.time.days)
         .orient('bottom');
 
@@ -48,6 +49,11 @@ export default {
         .tickSize(width)
         .tickFormat(d3.format(''))
         .orient('right');
+
+      svg.append('g')
+        .attr('class', 'x axis')
+        .attr('transform', `translate(0, ${height-20})`)
+        .call(xAxis);
 
       var gy = svg.append('g')
         .attr('class', 'y axis')
@@ -59,12 +65,12 @@ export default {
       gy.selectAll('g').filter(d => { return !d})
         .classed('hidden', true);
 
-      gy.selectAll('text')
-        .attr('font-family', 'helvetica')
-        .attr('font-size', 10)
-        .attr('fill', '#a6a6a6')
-        .attr('x', 4)
-        .attr('dy', -4);
+      // gy.selectAll('text')
+      //   .attr('font-family', 'helvetica')
+      //   .attr('font-size', 10)
+      //   .attr('fill', '#a6a6a6')
+      //   .attr('x', 4)
+      //   .attr('dy', -4);
     }
 
     bar.attr('class', 'chart-bar')
@@ -132,6 +138,7 @@ export default {
   },
 
   update(el, data){
+    console.warn('update');
     var width = el.clientWidth;
     var height = el.clientHeight;
     var count = data.length;
@@ -157,10 +164,26 @@ export default {
     //   .tickFormat(d3.format(''))
     //   .orient('right');
     //
-    // d3.select(".y.axis")
+    // var gy = d3.select('.y.axis');
+    // gy
     //   .transition()
     //   .duration(duration)
     //   .call(yAxis);
+
+    // gy.selectAll('g').filter(d => { return d})
+    //   .classed('minor', true);
+    //
+    // gy.selectAll('g').filter(d => { return !d})
+    //   .classed('hidden', true);
+    //
+    // gy.selectAll('text')
+    //   .attr('font-family', 'helvetica')
+    //   .attr('font-size', 10)
+    //   .attr('fill', '#a6a6a6')
+    //   .attr('x', 4)
+    //   .attr('dy', -4);
+
+
 
     d3.select(el).selectAll('rect.bar-body')
       .data(data)

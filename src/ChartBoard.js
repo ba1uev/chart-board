@@ -13,6 +13,12 @@ export default class App extends Component {
     ctr: null
   }
 
+  // shouldComponentUpdate(nextProps, nextState){
+    // console.log('PROPS > ', nextProps);
+    // console.log('STATE > ', nextState);
+    // return true
+  // }
+
   componentDidMount(){
     let refs = this.refs;
     let mainIndex = this.props.index;
@@ -23,28 +29,29 @@ export default class App extends Component {
       let dataSet = this.separateData(data, index);
       let totalValue = 0;
       Chart.create(refs[index], dataSet, false);
-      dataSet.forEach(datum => {
-        totalValue += datum.y;
-      })
-      values[index] = index === 'ctr' ? Number((totalValue/dataSet.length).toFixed(2)) : totalValue;
+      // FIXME : РАСКОМЕНТИТЬ !
+      // dataSet.forEach(datum => {
+      //   totalValue += datum.y;
+      // })
+      // values[index] = index === 'ctr' ? Number((totalValue/dataSet.length).toFixed(2)) : totalValue;
     })
-    this.setState({...values});
+    // this.setState({...values});
   }
 
   componentDidUpdate(){
     let refs = this.refs;
     let mainIndex = this.props.index;
     let data = this.props.data;
-    Chart.update(refs['mainChart'], this.separateData(data, mainIndex));
+    Chart.update(refs['mainChart'], this.separateData(data, mainIndex), true);
     indexList.forEach(index => {
-      Chart.update(refs[index], this.separateData(data, index));
+      Chart.update(refs[index], this.separateData(data, index), false);
     })
   }
 
   separateData(data, index) {
     let result = [];
     data.forEach((item,i) => {
-      // if (i < 18) {
+      // if (i < 10) {
         result.push({
           x: item.ts,
           y: Number(item[index])
