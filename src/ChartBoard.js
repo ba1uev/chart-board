@@ -60,19 +60,11 @@ export default class App extends Component {
       height: '300px'
     }
 
-    let subChartStyle = {
-      width: '21%',
-      margin: '20px 2% 0 0',
-      display: 'inline-block',
-      border: '1px solid lightgray',
-      padding: '5px',
-      verticalAlign: 'top'
-    }
     let subCharts = [];
     indexList.forEach(index => {
       subCharts.push(
         <div
-          style={subChartStyle}
+          className='subChart'
           key={`${index}_${uniqKey}`}
           onClick={() => {this.props.subChartClickHandler.apply(null,[index])}}
         >

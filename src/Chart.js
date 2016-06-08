@@ -29,41 +29,43 @@ export default {
       })])
       .range([0, height]);
 
-    // if (isMain) {
-    //   var xAxis = d3.svg.axis()
-    //     .scale(x)
-    //     .ticks(d3.time.days)
-    //     .orient('bottom');
-    //
-    //   var yAxis = d3.svg.axis()
-    //     .scale(y)
-    //     .tickSize(width)
-    //     .tickFormat(d3.format(''))
-    //     .orient('right');
-    //
-    //   var gy = svg.append('g')
-    //     .attr('class', 'y axis')
-    //     .call(yAxis);
-    //
-    //   gy.selectAll('g').filter(d => { return d})
-    //     .classed('minor', true);
-    //
-    //   gy.selectAll('g').filter(d => { return !d})
-    //     .classed('hidden', true);
-    //
-    //   gy.selectAll('text')
-    //     .attr('font-family', 'helvetica')
-    //     .attr('font-size', 10)
-    //     .attr('fill', '#a6a6a6')
-    //     .attr('x', 4)
-    //     .attr('dy', -4  );
-    // }
+
 
     var bar = svg.selectAll('g')
       .data(data)
       .enter()
       .append('g');
 
+
+    if (isMain) {
+      var xAxis = d3.svg.axis()
+        .scale(x)
+        .ticks(d3.time.days)
+        .orient('bottom');
+
+      var yAxis = d3.svg.axis()
+        .scale(y)
+        .tickSize(width)
+        .tickFormat(d3.format(''))
+        .orient('right');
+
+      var gy = svg.append('g')
+        .attr('class', 'y axis')
+        .call(yAxis);
+
+      gy.selectAll('g').filter(d => { return d})
+        .classed('minor', true);
+
+      gy.selectAll('g').filter(d => { return !d})
+        .classed('hidden', true);
+
+      gy.selectAll('text')
+        .attr('font-family', 'helvetica')
+        .attr('font-size', 10)
+        .attr('fill', '#a6a6a6')
+        .attr('x', 4)
+        .attr('dy', -4);
+    }
 
     bar.attr('class', 'chart-bar')
       .append('rect')
