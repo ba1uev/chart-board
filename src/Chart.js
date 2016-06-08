@@ -11,7 +11,8 @@ export default {
     var meanColor = '#ff5454';
     var meanY = d3.mean(data, d => {
       return d.y
-    })
+    });
+    var meanValue = meanY < 10 ? Number(meanY.toFixed(2)) : Math.round(meanY);
 
     var svg = d3.select(el).append('svg')
       .attr('style', 'shape-rendering: crispEdges;')
@@ -103,18 +104,12 @@ export default {
         .attr('x', width/2)
         .attr('y', height - y(meanY) + 3)
         .attr('text-anchor', 'middle')
-        .text(Math.round(meanY))
+        .text(meanValue)
         .attr('font-family', 'helvetica')
         .attr('font-size', 10)
         .attr('fill', '#fff');
     }
   },
-
-
-
-
-
-
 
   update(el, data){
     var width = el.clientWidth;
@@ -127,6 +122,7 @@ export default {
     var meanY = d3.mean(data, d => {
       return d.y
     });
+    var meanValue = meanY < 10 ? Number(meanY.toFixed(2)) : Math.round(meanY);
     var duration = 400;
 
     var y = d3.scale.linear()
@@ -175,7 +171,7 @@ export default {
       .transition()
       .duration(duration)
       .attr('y', height - y(meanY) + 3)
-      .text(Math.round(meanY));
+      .text(meanValue);
   },
   remove(){
     console.warn('remove!');
