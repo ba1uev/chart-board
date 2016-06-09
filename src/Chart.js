@@ -50,10 +50,10 @@ export default {
         .tickFormat(d3.format(''))
         .orient('right');
 
-      svg.append('g')
-        .attr('class', 'x axis')
-        .attr('transform', `translate(0, ${height-20})`)
-        .call(xAxis);
+      // svg.append('g')
+      //   .attr('class', 'x axis')
+      //   .attr('transform', `translate(0, ${height-20})`)
+      //   .call(xAxis);
 
       var gy = svg.append('g')
         .attr('class', 'y axis')
