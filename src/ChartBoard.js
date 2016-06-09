@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Chart from './Chart';
+import Chart from './Chart/';
 import {mean, sum} from 'lodash';
 
 var indexList = ['shows', 'impressions', 'clicks', 'ctr'];
@@ -51,12 +51,12 @@ export default class App extends Component {
   separateData(data, index) {
     let result = [];
     data.forEach((item,i) => {
-      // if (i < 10) {
+      if (i < 15) {
         result.push({
           x: item.ts,
           y: Number(item[index])
         })
-      // }
+      }
     })
     return result
   }

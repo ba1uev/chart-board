@@ -31,3 +31,16 @@ body {
 .subChart:hover {
   border-color: red;
 }
+
+.chart-tooltip {
+  position: absolute;
+  text-align: center;
+  width: 100px;
+  height: 50px;
+  padding: 8px;
+  font-size: 10px;
+  background: #fff;
+  border: 1px solid gray;
+  border-radius: 2px;
+  pointer-events: none;
+}
